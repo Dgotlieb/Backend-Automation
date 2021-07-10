@@ -11,7 +11,7 @@ public class RestAPITest {
         // use OKHttp client to create the connection and retrieve data
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://free.currencyconverterapi.com/api/v6/convert?q=USD_ILS&compact=y&apiKey=XXXXXXXXXXXX")
+                .url("http://api.exchangeratesapi.io/v1/latest?access_key=XXXXXXXXXXXX&symbols=USD,ILS")
                 .build();
         Response response = client.newCall(request).execute();
         String jsonData = response.body().string();
