@@ -5,7 +5,7 @@ import static io.restassured.RestAssured.get;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class RestAssuredTest {
-    String URL = "https://api.exchangeratesapi.io/latest?symbols=USD,ILS";
+    String URL = "http://api.exchangeratesapi.io/v1/latest?access_key=XXXXXXXXXXXXXXX&symbols=USD,ILS";
 
     @Test
     public void getBody() {
