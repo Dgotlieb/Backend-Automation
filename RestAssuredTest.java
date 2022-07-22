@@ -1,22 +1,37 @@
+import io.restassured.RestAssured;
+import io.restassured.http.Method;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.get;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class RestAssuredTest {
-    String URL = "http://api.exchangeratesapi.io/v1/latest?access_key=XXXXXXXXXXXXXXX&symbols=USD,ILS";
-
+    String URL = "https://api.apilayer.com/exchangerates_data/convert?to=ILS&from=USD&amount=1";
     @Test
     public void getBody() {
-        float value = get(URL).body().path("rates.ILS");
+        RequestSpecification httpRequest = RestAssured.given();
+        Response response = httpRequest
+                .contentType("application/json")
+                .header("apikey", "XXXXXXXXXXXXXXXXX")
+                .request(Method.GET, URL);
+
+        float value = response.body().path("info.rate");
         System.out.println(value);
     }
 
     @Test
     public void validateResponse() {
-        get(URL).then().assertThat()
+
+        RequestSpecification httpRequest = RestAssured.given();
+        Response response = httpRequest
+                .contentType("application/json")
+                .header("apikey", "XXXXXXXXXXXXXXXXX")
+                .request(Method.GET, URL);
+
+        response.then().assertThat()
                 .statusCode(HttpStatus.SC_OK). // make sure response is OK
-                body("rates.ILS", equalTo(3.8581f)); // validate value
+                body("info.rate", equalTo(3.8581f)); // validate value
     }
 }
